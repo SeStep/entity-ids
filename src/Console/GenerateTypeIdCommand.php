@@ -12,9 +12,16 @@ class GenerateTypeIdCommand extends Command
 {
     /** @var IdGenerator */
     private $generator;
-    /** @var array */
+    /** @var string[]  */
     private $types;
 
+    /**
+     * GenerateTypeIdCommand constructor.
+     *
+     * @param string $name
+     * @param IdGenerator $generator
+     * @param string[] $types
+     */
     public function __construct(string $name, IdGenerator $generator, array $types)
     {
         parent::__construct($name);
@@ -23,23 +30,27 @@ class GenerateTypeIdCommand extends Command
         $this->types = $types;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('type', InputArgument::REQUIRED, 'Class name or checkSump of type to generate id for');
-        $this->addArgument('count', InputArgument::OPTIONAL, 'Count of IDs to generate', 1);
+        $this->addArgument('count', InputArgument::OPTIONAL, 'Count of IDs to generate', '1');
     }
 
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $type = $input->getArgument('type');
-        if (is_numeric($type)) {
-            if (!isset($this->types[$type])) {
-                $output->writeln("CheckSum $type is not recognized to belong to an registered type");
+        $typeArg = $input->getArgument('type');
+        if (is_numeric($typeArg)) {
+            if (!isset($this->types[$typeArg])) {
+                $output->writeln("CheckSum $typeArg is not recognized to belong to an registered type");
                 return 1;
             }
 
-            $type = $this->types[$type];
+            $type = $this->types[$typeArg];
+        } elseif(is_string($typeArg)) {
+            $type = $typeArg;
+        } else {
+            throw new \TypeError("Type argument should be string or int, got" . gettype($typeArg));
         }
 
         if (!in_array($type, $this->types)) {

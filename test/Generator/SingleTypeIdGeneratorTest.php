@@ -7,14 +7,14 @@ use SeStep\EntityIds\CharSet;
 
 class SingleTypeIdGeneratorTest extends TestCase
 {
-    public function testHasType()
+    public function testHasType(): void
     {
         $generator = new SingleTypeIdGenerator('apple', new CharSet('ABC'), 4);
         self::assertTrue($generator->hasType('apple'));
         self::assertFalse($generator->hasType('orange'));
     }
 
-    public function testGenerateId()
+    public function testGenerateId(): void
     {
         $generator = new SingleTypeIdGenerator('apple', new CharSet('ABC'), 4);
 
@@ -24,7 +24,7 @@ class SingleTypeIdGeneratorTest extends TestCase
         }
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $generator = new SingleTypeIdGenerator('apple', new CharSet('ABC'), 4);
 

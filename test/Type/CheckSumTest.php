@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-
-namespace SeStep\EntityIds;
+namespace SeStep\EntityIds\Type;
 
 use PHPUnit\Framework\TestCase;
-use SeStep\EntityIds\Type\CheckSum;
+use SeStep\EntityIds\CharSet;
 
 class CheckSumTest extends TestCase
 {
+    /** @var CharSet */
     private static $hexDecCharSet;
 
     public static function setUpBeforeClass(): void
@@ -16,19 +16,22 @@ class CheckSumTest extends TestCase
     }
 
     /**
-     * @param $expectedValues
-     * @param $positions
+     * @param int $expectedValues
+     * @param int[] $positions
      *
      * @dataProvider distinctValuesData
      */
-    public function testGetDistinctValues(int $expectedValues, array $positions)
+    public function testGetDistinctValues(int $expectedValues, array $positions): void
     {
         $checkSum = new CheckSum(self::$hexDecCharSet, $positions);
 
         $this->assertEquals($expectedValues, $checkSum->getDistinctValues());
     }
 
-    public function distinctValuesData()
+    /**
+     * @return mixed[]
+     */
+    public function distinctValuesData(): array
     {
         return [
             [16, []],
@@ -40,21 +43,24 @@ class CheckSumTest extends TestCase
     /**
      * @param string $value
      * @param int $expectedCheckSum
-     * @param array $distinctPositions
+     * @param int[] $distinctionPositions
      *
      * @dataProvider hexDecCheckSumData
      */
     public function testCheckSumBaseHexDec(
         string $value,
         int $expectedCheckSum,
-        array $distinctPositions = []
-    ) {
-        $checkSum = new CheckSum(self::$hexDecCharSet, $distinctPositions);
+        array $distinctionPositions = []
+    ): void {
+        $checkSum = new CheckSum(self::$hexDecCharSet, $distinctionPositions);
 
         $this->assertEquals($expectedCheckSum, $checkSum->compute($value));
     }
 
-    public function hexDecCheckSumData()
+    /**
+     * @return mixed[]
+     */
+    public function hexDecCheckSumData(): array
     {
         return [
             'basic 0' => ['0', 0],
@@ -70,13 +76,13 @@ class CheckSumTest extends TestCase
     }
 
     /**
-     * @param $value
-     * @param $expectedCheckSum
-     * @param array $distinctPositions
+     * @param string $value
+     * @param int $expectedCheckSum
+     * @param int[] $distinctPositions
      *
      * @dataProvider adjustValueToSumData
      */
-    public function testAdjustValueToSum($value, $expectedCheckSum, array $distinctPositions = [])
+    public function testAdjustValueToSum($value, $expectedCheckSum, array $distinctPositions = []): void
     {
         $checkSum = new CheckSum(self::$hexDecCharSet, $distinctPositions);
 
@@ -96,7 +102,10 @@ class CheckSumTest extends TestCase
         );
     }
 
-    public function adjustValueToSumData()
+    /**
+     * @return mixed[]
+     */
+    public function adjustValueToSumData(): array
     {
         return [
             ['123', 7],

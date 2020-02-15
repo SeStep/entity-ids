@@ -9,9 +9,16 @@ use Nette\Schema\Schema;
 use SeStep\EntityIds\CharSet;
 use SeStep\EntityIds\Console\GenerateTypeIdCommand;
 use SeStep\EntityIds\Console\ListIdTypesCommand;
-use SeStep\EntityIds\EncodedTypeIdGenerator;
+use SeStep\EntityIds\Generator\TypeMapIdGenerator;
 use SeStep\EntityIds\Type\CheckSum;
+use stdClass;
 
+/**
+ * Class EntityIdsExtension
+ * @package SeStep\EntityIds\DI
+ *
+ * @method stdClass getConfig()
+ */
 class EntityIdsExtension extends CompilerExtension
 {
 
@@ -21,7 +28,7 @@ class EntityIdsExtension extends CompilerExtension
             'charList' => Expect::string(),
             'types' => Expect::array(),
             'idLength' => Expect::int(12),
-            'distinctPositions' => Expect::arrayOf(Expect::int()),
+            'distinctionPositions' => Expect::arrayOf(Expect::int()),
             'registerCommands' => Expect::bool(false),
         ]);
     }
@@ -37,7 +44,7 @@ class EntityIdsExtension extends CompilerExtension
         }
     }
 
-    private function addDefinitions(ContainerBuilder $builder, $config)
+    private function addDefinitions(ContainerBuilder $builder, stdClass $config): void
     {
         $charSet = $builder->addDefinition($this->prefix('charSet'))
             ->setType(CharSet::class)
@@ -55,7 +62,7 @@ class EntityIdsExtension extends CompilerExtension
             ]);
 
         $builder->addDefinition($this->prefix('idGenerator'))
-            ->setType(EncodedTypeIdGenerator::class)
+            ->setType(TypeMapIdGenerator::class)
             ->setArguments([
                 $charSet,
                 $checkSum,
@@ -64,7 +71,8 @@ class EntityIdsExtension extends CompilerExtension
             ]);
     }
 
-    private function addCommandDefinitions(ContainerBuilder $builder, $config)
+
+    private function addCommandDefinitions(ContainerBuilder $builder, stdClass $config): void
     {
         $builder->addDefinition($this->prefix('listIdTypesCommand'))
             ->setType(ListIdTypesCommand::class)

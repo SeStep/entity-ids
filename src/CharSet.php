@@ -2,6 +2,9 @@
 
 namespace SeStep\EntityIds;
 
+/**
+ * A CharSet value object containing enumeration of characters
+ */
 class CharSet
 {
     /** @var string base64 character set */
@@ -56,8 +59,8 @@ class CharSet
 
     public function generate(int $length): string
     {
-        if (class_exists(Nette\Utils\Random::class)) {
-            return Nette\Utils\Random::generate($length, $this->getChars());
+        if (class_exists('Nette\Utils\Random')) {
+            return \Nette\Utils\Random::generate($length, $this->getChars());
         }
 
         $id = '';

@@ -13,7 +13,7 @@ class TypeMapIdGeneratorTest extends TestCase
      *
      * @param string $expectedExceptionMessage
      * @param int $length
-     * @param array $typeMap
+     * @param string[] $typeMap
      *
      * @dataProvider invalidArgumentsData
      */
@@ -21,14 +21,17 @@ class TypeMapIdGeneratorTest extends TestCase
         string $expectedExceptionMessage,
         int $length,
         array $typeMap = []
-    ) {
+    ): void {
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $charSet = new CharSet('ABCDabcd');
         new TypeMapIdGenerator($charSet, new CheckSum($charSet), $typeMap, $length);
     }
 
-    public function invalidArgumentsData()
+    /**
+     * @return mixed[]
+     */
+    public function invalidArgumentsData(): array
     {
         return [
             'invalid check sum type' => [
@@ -55,7 +58,7 @@ class TypeMapIdGeneratorTest extends TestCase
         ];
     }
 
-    public function testGetId()
+    public function testGetId(): void
     {
         $charSet = new CharSet('ABC');
         $generator = new TypeMapIdGenerator($charSet, new CheckSum($charSet), [], 6);
@@ -63,7 +66,7 @@ class TypeMapIdGeneratorTest extends TestCase
         $this->assertRegExp('/[ABC]{6}/', $generator->generateId());
     }
 
-    public function testGetIdCheckType()
+    public function testGetIdCheckType(): void
     {
         $types = [
             2 => 'potion',

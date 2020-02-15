@@ -9,7 +9,9 @@ use SeStep\EntityIds\Type\CheckSum;
 final class TypeMapIdGenerator implements IdGenerator
 {
 
+    /** @var int[] map with types as keys  */
     private $typeToCheckSumMap = [];
+    /** @var string[] map with ints as keys  */
     private $checkSumToTypeMap = [];
 
     /** @var CharSet */
@@ -23,7 +25,7 @@ final class TypeMapIdGenerator implements IdGenerator
     /**
      * @param CharSet $charSet
      * @param CheckSum $checkSum
-     * @param array $typeMap map of types where keys are expected check sums
+     * @param string[] $typeMap map of types where keys are expected check sums
      * @param int $length
      */
     public function __construct(

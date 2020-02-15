@@ -9,9 +9,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ListIdTypesCommand extends Command
 {
-    /** @var array */
+    /** @var string[] */
     private $types;
 
+    /**
+     * ListIdTypesCommand constructor.
+     * @param string $name
+     * @param string[] $types
+     */
     public function __construct(string $name, array $types)
     {
         parent::__construct($name);
@@ -19,7 +24,7 @@ class ListIdTypesCommand extends Command
         $this->types = $types;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
         $table->setHeaders(['CheckSum', 'Type']);
@@ -29,5 +34,7 @@ class ListIdTypesCommand extends Command
         }
 
         $table->render();
+
+        return 0;
     }
 }
