@@ -1,0 +1,32 @@
+{
+  "name": "sestep/entity-ids",
+  "description": "ID generator with capability of carrying type information",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Štěpán Śevčík",
+      "email": "Thoronir42@Gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "suggest": {
+    "symfony/console": "for CLI access of ID generator",
+    "nette/utils": "for more sophisticated inputs of id generator"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SeStep\\EntityIds\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SeStep\\TypedIds\\": "test/"
+    }
+  }
+}
