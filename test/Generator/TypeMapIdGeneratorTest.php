@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use SeStep\EntityIds\CharSet;
 use SeStep\EntityIds\Type\CheckSum;
 
-class EncodedTypeIdGeneratorTest extends TestCase
+class TypeMapIdGeneratorTest extends TestCase
 {
     /**
      *
@@ -25,7 +25,7 @@ class EncodedTypeIdGeneratorTest extends TestCase
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $charSet = new CharSet('ABCDabcd');
-        new EncodedTypeIdGenerator($charSet, new CheckSum($charSet), $typeMap, $length);
+        new TypeMapIdGenerator($charSet, new CheckSum($charSet), $typeMap, $length);
     }
 
     public function invalidArgumentsData()
@@ -58,7 +58,7 @@ class EncodedTypeIdGeneratorTest extends TestCase
     public function testGetId()
     {
         $charSet = new CharSet('ABC');
-        $generator = new EncodedTypeIdGenerator($charSet, new CheckSum($charSet), [], 6);
+        $generator = new TypeMapIdGenerator($charSet, new CheckSum($charSet), [], 6);
 
         $this->assertRegExp('/[ABC]{6}/', $generator->generateId());
     }
@@ -72,7 +72,7 @@ class EncodedTypeIdGeneratorTest extends TestCase
         ];
 
         $charSet = new CharSet('0123');
-        $generator = new EncodedTypeIdGenerator($charSet, new CheckSum($charSet, [1, 3, 7]), $types, 10);
+        $generator = new TypeMapIdGenerator($charSet, new CheckSum($charSet, [1, 3, 7]), $types, 10);
 
         $ids = array_map(function ($type) use ($generator) {
             return $generator->generateId($type);

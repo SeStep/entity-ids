@@ -6,7 +6,7 @@ use SeStep\EntityIds\CharSet;
 use SeStep\EntityIds\IdGenerator;
 use SeStep\EntityIds\Type\CheckSum;
 
-final class EncodedTypeIdGenerator implements IdGenerator
+final class TypeMapIdGenerator implements IdGenerator
 {
 
     private $typeToCheckSumMap = [];
