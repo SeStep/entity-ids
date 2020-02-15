@@ -67,4 +67,16 @@ class CharSet
 
         return $id;
     }
+
+    public function contains(string $word): bool
+    {
+        $length = strlen($word);
+        for ($i = 0; $i < $length; $i++) {
+            if ($this->charToValue($word[$i]) === -1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

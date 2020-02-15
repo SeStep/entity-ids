@@ -70,4 +70,14 @@ class CharSetTest extends TestCase
         $this->assertNull($charSet->valueToChar(-5));
         $this->assertNull($charSet->valueToChar(4));
     }
+
+    public function testContains()
+    {
+        $charSet = new CharSet('abc');
+
+        $this->assertTrue($charSet->contains('a'));
+        $this->assertTrue($charSet->contains('aabbcc'));
+
+        $this->assertFalse($charSet->contains('123'));
+    }
 }
