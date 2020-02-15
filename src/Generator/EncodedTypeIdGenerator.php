@@ -69,10 +69,13 @@ final class EncodedTypeIdGenerator implements IdGenerator
             throw new \InvalidArgumentException("Type '$type' is not registered");
         }
 
-        $id = $this->generate();
-
         if ($type) {
+            $id = $this->charSet->generate($this->length);
             $id = $this->checkSum->adjustValueToSum($id, $this->typeToCheckSumMap[$type]);
+        } else {
+            do {
+                $id = $this->charSet->generate($this->length);
+            } while ($this->getType($id) !== null);
         }
 
         return $id;
@@ -91,21 +94,5 @@ final class EncodedTypeIdGenerator implements IdGenerator
         }
 
         return $this->checkSum->compute($id);
-    }
-
-    private function generate(): string
-    {
-        if (class_exists(Nette\Utils\Random::class)) {
-            return Nette\Utils\Random::generate($this->length, $this->charSet->getChars());
-        }
-
-        $chars = $this->charSet->getBase();
-
-        $id = '';
-        for ($i = 0; $i < $this->length; $i++) {
-            $id .= $this->charSet->valueToChar(random_int(0, $chars - 1));
-        }
-
-        return $id;
     }
 }

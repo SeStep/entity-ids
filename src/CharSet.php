@@ -4,6 +4,7 @@ namespace SeStep\EntityIds;
 
 class CharSet
 {
+    /** @var string base64 character set */
     const DEFAULT_LIST = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
 
     /** @var string */
@@ -51,5 +52,19 @@ class CharSet
         }
 
         return $this->charList[$value];
+    }
+
+    public function generate(int $length): string
+    {
+        if (class_exists(Nette\Utils\Random::class)) {
+            return Nette\Utils\Random::generate($length, $this->getChars());
+        }
+
+        $id = '';
+        for ($i = 0; $i < $length; $i++) {
+            $id .= $this->valueToChar(random_int(0, $this->base - 1));
+        }
+
+        return $id;
     }
 }
