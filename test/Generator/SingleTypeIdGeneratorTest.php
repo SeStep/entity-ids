@@ -34,4 +34,11 @@ class SingleTypeIdGeneratorTest extends TestCase
 
         self::assertEquals('apple', $generator->getType('ABCA'));
     }
+
+    public function testGetTypes()
+    {
+        $generator = new SingleTypeIdGenerator('apple', new CharSet('ABC'), 4);
+
+        self::assertEquals(['apple'], $generator->getTypes());
+    }
 }

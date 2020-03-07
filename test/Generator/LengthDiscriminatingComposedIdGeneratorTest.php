@@ -49,6 +49,13 @@ class LengthDiscriminatingComposedIdGeneratorTest extends TestCase
         self::assertEquals($expectedType, $generator->getType($id));
     }
 
+    public function testGetTypes()
+    {
+        $generator = $this->createGenerator();
+
+        self::assertEquals(['apple', 'table', 'mirror'], $generator->getTypes());
+    }
+
     public function getTypeData()
     {
         return [

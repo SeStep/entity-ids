@@ -9,9 +9,9 @@ use SeStep\EntityIds\Type\CheckSum;
 final class TypeMapIdGenerator implements IdGenerator
 {
 
-    /** @var int[] map with types as keys  */
+    /** @var int[] map with types as keys */
     private $typeToCheckSumMap = [];
-    /** @var string[] map with ints as keys  */
+    /** @var string[] map with ints as keys */
     private $checkSumToTypeMap = [];
 
     /** @var CharSet */
@@ -96,5 +96,13 @@ final class TypeMapIdGenerator implements IdGenerator
         }
 
         return $this->checkSum->compute($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTypes(): array
+    {
+        return array_keys($this->typeToCheckSumMap);
     }
 }

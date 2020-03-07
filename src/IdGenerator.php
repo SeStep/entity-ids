@@ -31,4 +31,11 @@ interface IdGenerator
      * @return string|null
      */
     public function getType(string $id): ?string;
+
+    /**
+     * Retrieves types supported by the id generator
+     *
+     * @return string[]
+     */
+    public function getTypes(): array;
 }

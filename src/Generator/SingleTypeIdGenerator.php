@@ -49,4 +49,13 @@ class SingleTypeIdGenerator implements IdGenerator
 
         return $match ? $this->type : null;
     }
+
+    /**
+     * @return string[]
+     */
+    public function getTypes(): array
+    {
+        return [$this->type];
+    }
+
 }

@@ -20,14 +20,13 @@ class GenerateTypeIdCommand extends Command
      *
      * @param string $name
      * @param IdGenerator $generator
-     * @param string[] $types
      */
-    public function __construct(string $name, IdGenerator $generator, array $types)
+    public function __construct(string $name, IdGenerator $generator)
     {
         parent::__construct($name);
 
         $this->generator = $generator;
-        $this->types = $types;
+        $this->types = $generator->getTypes();
     }
 
     protected function configure(): void
@@ -42,7 +41,7 @@ class GenerateTypeIdCommand extends Command
         $typeArg = $input->getArgument('type');
         if (is_numeric($typeArg)) {
             if (!isset($this->types[$typeArg])) {
-                $output->writeln("CheckSum $typeArg is not recognized to belong to an registered type");
+                $output->writeln("#$typeArg is not recognized to belong to an registered type");
                 return 1;
             }
 

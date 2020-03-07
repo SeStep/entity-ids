@@ -2,12 +2,16 @@
 
 namespace SeStep\EntityIds\Generator;
 
+use Nette\InvalidStateException;
 use SeStep\EntityIds\IdGenerator;
 
 class LengthDiscriminatingComposedIdGenerator implements IdGenerator
 {
     /** @var IdGenerator[] */
     private $generators = [];
+
+    /** @var mixed[] type to generator name map */
+    private $typeToGenerator;
 
     /**
      * ComposedIdGenerator constructor.
@@ -23,6 +27,14 @@ class LengthDiscriminatingComposedIdGenerator implements IdGenerator
             }
 
             $this->generators[$length] = $generator;
+            foreach ($generator->getTypes() as $type) {
+                $currentGenerator = $this->typeToGenerator[$type] ?? null;
+                if ($currentGenerator !== null) {
+                    throw new InvalidStateException("Can not register type '$type' of generator $length - "
+                        . "it is already contained in generator " . $currentGenerator);
+                }
+                $this->typeToGenerator[$type] = $length;
+            }
         }
     }
 
@@ -34,13 +46,7 @@ class LengthDiscriminatingComposedIdGenerator implements IdGenerator
      */
     public function hasType(string $type): bool
     {
-        foreach ($this->generators as $generator) {
-            if ($generator->hasType($type)) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($this->typeToGenerator[$type]);
     }
 
     /**
@@ -51,10 +57,9 @@ class LengthDiscriminatingComposedIdGenerator implements IdGenerator
      */
     public function generateId(string $type = null): string
     {
-        foreach ($this->generators as $generator) {
-            if ($generator->hasType($type)) {
-                return $generator->generateId($type);
-            }
+        $generatorName = $this->typeToGenerator[$type] ?? null;
+        if ($generatorName !== null) {
+            return $this->generators[$generatorName]->generateId($type);
         }
 
         throw new \UnexpectedValueException("No generator available to generate id for type '$type'");
@@ -76,5 +81,13 @@ class LengthDiscriminatingComposedIdGenerator implements IdGenerator
 
 
         return $this->generators[$length]->getType($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTypes(): array
+    {
+        return array_keys($this->typeToGenerator);
     }
 }

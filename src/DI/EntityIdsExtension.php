@@ -78,7 +78,6 @@ class EntityIdsExtension extends CompilerExtension
             ->setType(ListIdTypesCommand::class)
             ->setArguments([
                 'name' => 'id:type:list',
-                'types' => $config->types,
             ])
             ->addTag('console.command', ['name' => 'id:type:list']);
 
@@ -86,7 +85,6 @@ class EntityIdsExtension extends CompilerExtension
             ->setType(GenerateTypeIdCommand::class)
             ->setArguments([
                 'name' => 'id:type:generate',
-                'types' => $config->types,
             ])
             ->addTag('console.command', ['name' => 'id:type:generate']);
     }

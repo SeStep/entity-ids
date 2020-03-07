@@ -91,4 +91,15 @@ class TypeMapIdGeneratorTest extends TestCase
 
         $this->assertEquals($types, $recognizedTypes);
     }
+
+    public function testGetTypes()
+    {
+        $charSet = new CharSet('0123');
+        $generator = new TypeMapIdGenerator($charSet, new CheckSum($charSet, [2]), [
+            2 => 'chair',
+            3 => 'bird',
+        ]);
+
+        self::assertEquals(['chair', 'bird'], $generator->getTypes());
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace SeStep\EntityIds\Console;
 
+use SeStep\EntityIds\IdGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,19 +16,19 @@ class ListIdTypesCommand extends Command
     /**
      * ListIdTypesCommand constructor.
      * @param string $name
-     * @param string[] $types
+     * @param IdGenerator $generator
      */
-    public function __construct(string $name, array $types)
+    public function __construct(string $name, IdGenerator $generator)
     {
         parent::__construct($name);
 
-        $this->types = $types;
+        $this->types = $generator->getTypes();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table($output);
-        $table->setHeaders(['CheckSum', 'Type']);
+        $table->setHeaders(['Num', 'Type']);
 
         foreach ($this->types as $checkSum => $type) {
             $table->addRow([$checkSum, $type]);
