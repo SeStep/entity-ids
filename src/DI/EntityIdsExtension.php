@@ -58,7 +58,7 @@ class EntityIdsExtension extends CompilerExtension
             ->setAutowired(false)
             ->setArguments([
                 $charSet,
-                $config->distinctPositions ?? [],
+                $config->distinctionPositions ?? [],
             ]);
 
         $builder->addDefinition($this->prefix('idGenerator'))
